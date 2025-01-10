@@ -76,6 +76,7 @@ class RegisteredUserController extends Controller
         if ($verification->valid) {
             $user = tap(User::where('phone_number', $data['phone_number']))
                 ->update(['phone_verified' => true]);
+<<<<<<< HEAD
 
             Profile::class::query()
             ->create([
@@ -86,12 +87,21 @@ class RegisteredUserController extends Controller
             
             /* Authenticate user */
             Auth::login($user->first());
+=======
+>>>>>>> 4bb718699eae6b974648255a2e0118ad57ec8dca
 
-            $token = $user->createToken($user->phone_number)->plainTextToken;
+            if (!$user) {
+                return response()->json(
+                    [
+                        'message' => 'verification failed, user not found, please check if the phone number is currect and if you are regiesterd'
+                    ],
+                    404
+                );
+            }
+
             return response()->json([
-                'message' => 'Phone number verified',
-                'token' => $token
-            ]);
+                'message' => 'Phone number verified'
+            ], 200);
         }
 
         return response()->json([

@@ -36,7 +36,7 @@ class TestRegisteredUserController extends Controller
         return response()->json([
             'message' => 'SMS message sent successfully',
             'phone_number' => $data['phone_number']
-        ]);
+        ], 201);
     }
 
     /**
@@ -63,6 +63,7 @@ class TestRegisteredUserController extends Controller
                     404
                 );
             }
+<<<<<<< HEAD
             Profile::class::query()
             ->create([
                 'user_id' => $user['id'],
@@ -74,15 +75,17 @@ class TestRegisteredUserController extends Controller
 
             $token = $user->createToken($user->phone_number)->plainTextToken;
 
+=======
+>>>>>>> 4bb718699eae6b974648255a2e0118ad57ec8dca
             return response()->json([
                 'message' => 'Phone number verified',
-                'token' => $token
-            ]);
+            ], 200);
         }
 
         return response()->json([
             'phone_number' => $data['phone_number'],
-            'error' => 'Invalid verification code entered!'
+            'error' => 'Invalid OTP',
+            'message' => 'Invalid verification code entered!'
         ], 409);
     }
 }

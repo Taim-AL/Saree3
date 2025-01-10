@@ -11,7 +11,13 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $query = $request->input('searchQuery');
+        $query = $request->has('searchQuery') ? $request->input('searchQuery') : "";
+
+        if ($query == "") {
+            return response()->json([
+                'message' => 'no search query provided'
+            ], 400);
+        }
 
         // Search products
         $products = Product::where('name', 'like', "%{$query}%")
@@ -34,6 +40,6 @@ class SearchController extends Controller
                 'vendors' => $vendors,
                 'categories' => $categories,
             ]
-        ]);
+        ], 200);
     }
 }
