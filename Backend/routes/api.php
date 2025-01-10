@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Http\Request;
@@ -45,3 +46,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/myorders/{id}/cancel', [OrderController::class, 'cancel']);
     Route::post('/myorders/clearhistory', [OrderController::class, 'clearHistory']);
 });
+
+//Profile
+// Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profile/{id}', [ProfileController::class, 'show']);
+    Route::put('/profile/{id}', [ProfileController::class, 'update']);
+// });
+

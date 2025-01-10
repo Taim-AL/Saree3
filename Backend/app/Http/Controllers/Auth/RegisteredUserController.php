@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -75,6 +76,14 @@ class RegisteredUserController extends Controller
         if ($verification->valid) {
             $user = tap(User::where('phone_number', $data['phone_number']))
                 ->update(['phone_verified' => true]);
+
+            Profile::class::query()
+            ->create([
+                'user_id' => $user['id'],
+                'full_name'=> $user['name'],
+                'phone_number'=> $user['phone_number']
+            ]);
+            
             /* Authenticate user */
             Auth::login($user->first());
 

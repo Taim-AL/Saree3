@@ -32,7 +32,7 @@ class OrderController extends Controller
     {
         $order = new Order([
             'user_id' => $request->user()->id,
-            'total_price' => 0, // This will be calculated 
+            'total_price' => 0, // This will be calculated
         ]);
         $order->save();
 
@@ -70,7 +70,7 @@ class OrderController extends Controller
             return response()->json(['message' => 'Only pending orders can be updated'], 403);
         }
 
-        // Update order items and recalculate total price 
+        // Update order items and recalculate total price
 
         $totalPrice = 0;
         // Get the list of product IDs from the request
@@ -118,7 +118,7 @@ class OrderController extends Controller
 
         $order->update([
             'status' => 'canceled',
-            'closed_at' => Date::now()
+            'closed_at' => now(),
         ]);
 
         return response()->json(['message' => 'Order canceled successfully'], 200);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Validation\Rules;
 
 class TestRegisteredUserController extends Controller
 {
+
     /**
      * Handle an incoming registration request.
      *
@@ -61,7 +63,12 @@ class TestRegisteredUserController extends Controller
                     404
                 );
             }
-
+            Profile::class::query()
+            ->create([
+                'user_id' => $user['id'],
+                'full_name'=> $user['name'],
+                'phone_number'=> $user['phone_number']
+            ]);
             /* Authenticate user */
             Auth::login($user->first());
 
